@@ -1,0 +1,39 @@
+package br.com.caelum.livraria.bean;
+
+import java.util.List;
+
+import javax.enterprise.inject.Model;
+import javax.inject.Inject;
+
+import br.com.caelum.livraria.dao.AutorDao;
+import br.com.caelum.livraria.modelo.Autor;
+
+@Model
+public class AutorBean {
+	
+	/*
+	 * O DAO está sendo administrado pelo EJB Container. 
+	 * Portanto, quem cria o DAO é o EJB Container e não a minha classe. 
+	 * Consequentemente precisamos pedir ao EJB Container passar aquela instancia 
+	 *  que ele está administrando.
+	 * */
+	
+	@Inject
+	private Autor autor;
+	
+	@Inject
+	private AutorDao dao;
+	
+	public Autor getAutor() {
+		return autor;
+	}
+	
+	public void cadastra() {
+		this.dao.salva(autor);
+		this.autor = new Autor();
+	}
+	
+	public List<Autor> getAutores() {
+		return this.dao.todosAutores();
+	}
+}
